@@ -10,12 +10,19 @@ import java.awt.Dimension;
 import tracking.Robot;
 import tracking.Vector2d;
 
+/**
+ * Main class for the Location Server. It initiates the server
+ * and the video tracker to get the robot's location and orientation.
+ * 
+ * @author miguelduarte
+ *
+ */
 public class TrackingSystem extends Thread{
 	
 	private Video video;
 	private ServerEnvironment environment;
 	private Robot robot = new Robot();
-	private TrackingServer server;
+	private LocationServer server;
 	private IplImage smallImg;
 	private static int WIDTH = 600;
 	private static int HEIGHT = 400;
@@ -23,7 +30,7 @@ public class TrackingSystem extends Thread{
 	public TrackingSystem() {
 		video = new Video(false);
 		environment = new ServerEnvironment();
-		server = new TrackingServer(this);
+		server = new LocationServer(this);
 	}
 	
 	@Override

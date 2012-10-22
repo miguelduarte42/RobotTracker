@@ -1,14 +1,15 @@
 package client;
 
 import java.util.LinkedList;
-
 import tracking.Vector2d;
-import static com.googlecode.javacv.cpp.opencv_core.*;
-import static com.googlecode.javacv.cpp.opencv_highgui.*;
-import static com.googlecode.javacv.cpp.opencv_imgproc.*;
-import com.googlecode.javacv.cpp.opencv_core.CvScalar;
-import com.googlecode.javacv.cpp.opencv_core.IplImage;
 
+/**
+ * Keeps a reference to the virtual objects that the
+ * robot might need to interact with.
+ * 
+ * @author miguelduarte
+ *
+ */
 public class ClientEnvironment {
 	
 	public LinkedList<Vector2d> objects = new LinkedList<Vector2d>();

@@ -1,7 +1,17 @@
-package client;
+package client.epuck;
 
+import client.BluetoothHandler;
+import client.RemoteExperiment;
 import tracking.Robot;
 
+/**
+ * This class remotely controls an e-puck robot.
+ * It gets the sensor data from the robot every
+ * 100ms, executes the control cycle of a Neural
+ * Network, and sends the motor commands to the robot.
+ * 
+ * @author miguelduarte
+ */
 public class Controller extends Thread {
 	
 	private CTRNNMultilayer network;
@@ -16,7 +26,7 @@ public class Controller extends Thread {
 	private ControllerFrame frame;
 	private double[] virtualInputs = new double[INPUTS];
 	private Robot robot;
-	private boolean moveRobot = false;
+	private boolean moveRobot = true;
 	public int timestep = 0;
 	private RemoteExperiment experiment;
 	
@@ -80,8 +90,6 @@ public class Controller extends Thread {
 					//values[values.length-1] = sensor ? 1 : 0;
 					
 					double[] outputs = network.propagateInputs(values);
-					if(outputs.length > 2 && outputs[2] > 0.5)
-						experiment.removeObject(robot.getPosition(),robot.preyPickRange);
 					
 					int actuatorValues[] = new int[outputs.length*2];
 					
@@ -89,6 +97,12 @@ public class Controller extends Thread {
 					actuatorValues[1] = (int)((outputs[0]*2.0 - 1.0)*speed)+1000;
 					actuatorValues[2] = (int)WHEEL_RIGHT;
 					actuatorValues[3] = (int)((outputs[1]*2.0 - 1.0)*speed)+1000;
+					
+					if(outputs.length > 2 && outputs[2] > 0.5) {
+						experiment.removeObject(robot.getPosition(),robot.preyPickRange);
+						actuatorValues[1] = 1000;
+						actuatorValues[3] = 1000;
+					}
 					
 					if(!moveRobot) {
 						actuatorValues[1] = 1000;

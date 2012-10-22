@@ -6,7 +6,15 @@ import java.net.Socket;
 
 import tracking.Robot;
 
-public class TrackerClient {
+/**
+ * Receives the location information from the
+ * Location Server. The information comes in the
+ * form of a Robot object.
+ * 
+ * @author miguelduarte
+ *
+ */
+public class LocationClient {
 	
 	private Socket socket;
 	private static String IP = "10.40.50.134";
@@ -18,7 +26,7 @@ public class TrackerClient {
 	public double y;
 	public double orientation;
 	
-	public TrackerClient() {
+	public LocationClient() {
 		try {
 			socket = new Socket(IP, PORT);
 		} catch (Exception e) {
@@ -35,7 +43,7 @@ public class TrackerClient {
 	}
 
 	public static void main(String[] args) {
-		new TrackerClient();
+		new LocationClient();
 	}
 	
 	class InputHandler extends Thread {

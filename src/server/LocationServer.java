@@ -8,13 +8,13 @@ import java.net.Socket;
 import tracking.Robot;
 import tracking.Vector2d;
 
-public class TrackingServer extends Thread{
+public class LocationServer extends Thread{
 	
 	private static int PORT = 1338;
 	private ServerSocket server;
 	private TrackingSystem tracker;
 	
-	public TrackingServer(TrackingSystem tracker) {
+	public LocationServer(TrackingSystem tracker) {
 		try {
 			server = new ServerSocket(PORT);
 			this.tracker = tracker;

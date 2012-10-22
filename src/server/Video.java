@@ -3,17 +3,49 @@ package server;
 import static com.googlecode.javacv.cpp.opencv_core.*;
 import static com.googlecode.javacv.cpp.opencv_highgui.*;
 import static com.googlecode.javacv.cpp.opencv_imgproc.*;
-
 import java.awt.Dimension;
-
 import tracking.RobotKalman;
-
 import com.googlecode.javacpp.Pointer;
 import com.googlecode.javacv.CanvasFrame;
 import com.googlecode.javacv.FrameGrabber;
 import com.googlecode.javacv.FrameGrabber.Exception;
 import com.googlecode.javacv.cpp.opencv_highgui;
 
+/**
+ * Handles the robot tracking based on images from a camera.
+ * In our setup, the camera is positioned in the ceiling at
+ * around 3 meters. It covers a span of around 2.3 meters in
+ * width and 1.5 meters in height. The robot has a marker on top,
+ * with a diameter of 8 centimeters. The marker is a white circle
+ * with a black cross. The arms of the cross have a width of roughly
+ * 3 centimeters. An example of the marker can be seen here:
+ * http://miguelduarte.pt/media/robot_marker.jpg
+ * 
+ * The parameters of the video processing algorithm might have to
+ * be tweaked depending on the lighting or camera setup. The algorithm
+ * is as follows:
+ * 
+ * 1) Value-based threshold to find the white circle, on a grayscale version
+ * 		of the image
+ * 2) Dilation of the image to "hide" the cross in the circle
+ * 3) Erosion to return the circle to its original size, without the cross
+ * 4) Canny to detect the edges of the circle
+ * 5) Hough Circles to detect the center and radius of the circle
+ * 6) Image crop to work on the circle area only
+ * 7) Value-based threshold to find the cross
+ * 8) Hough Lines to find all the lines in the cross
+ * 9) Line intersection to find perpendicular lines
+ * 10) Detection of longer line in order to assess the orientation
+ * 
+ * In order to increase performance, the image is cropped if the circle
+ * was found on the previous cycle. From my measurements, it takes roughly
+ * 3 miliseconds to process one frame, on a 3.0Ghz 8-core AMD processor.
+ * 
+ * This currently tracks only one robot.
+ * 
+ * @author miguelduarte
+ *
+ */
 public class Video extends Thread{
 	
 	public CvPoint robotPosition = cvPoint(0,0);
@@ -156,8 +188,8 @@ public class Video extends Thread{
 			
 			
 			cvThreshold(thresholdedCross, thresholdedCross, 120, 255, CV_THRESH_BINARY);
-//					cvSmooth(thresholdedCross, thresholdedCross, CV_GAUSSIAN, 3);
-//					cvDilate(thresholdedCross,thresholdedCross,null,1);
+//			cvSmooth(thresholdedCross, thresholdedCross, CV_GAUSSIAN, 3);
+//			cvDilate(thresholdedCross,thresholdedCross,null,1);
 			
 			
 			CvMemStorage storage2 = cvCreateMemStorage(0);

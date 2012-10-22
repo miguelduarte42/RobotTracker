@@ -1,4 +1,4 @@
-package client;
+package client.epuck;
 
 public class HierarchicalController extends CTRNNMultilayer {
 	

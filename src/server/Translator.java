@@ -2,8 +2,13 @@ package server;
 
 import tracking.Vector2d;
 
-import com.googlecode.javacv.cpp.opencv_core.CvPoint;
-
+/**
+ * Converts a pixel coordinate to a real-world coordinate,
+ * or vice-versa.
+ * 
+ * @author miguelduarte
+ *
+ */
 public class Translator {
 	
 	public static GroundPoint[][] points = {

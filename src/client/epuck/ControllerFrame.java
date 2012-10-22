@@ -1,4 +1,4 @@
-package client;
+package client.epuck;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -7,6 +7,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Displays the inputs and outputs of a neural-network
+ * based controller in real time.
+ * 
+ * @author miguelduarte
+ *
+ */
 public class ControllerFrame extends JFrame{
 	
 	private Controller c;

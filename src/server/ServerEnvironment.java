@@ -1,7 +1,6 @@
 package server;
 
 import java.util.LinkedList;
-
 import tracking.Vector2d;
 import static com.googlecode.javacv.cpp.opencv_core.*;
 import static com.googlecode.javacv.cpp.opencv_highgui.*;

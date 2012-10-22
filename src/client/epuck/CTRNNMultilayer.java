@@ -1,5 +1,11 @@
-package client;
+package client.epuck;
 
+/**
+ * Implementation of a Continuous-Time Recurrent Neural Network.
+ * 
+ * @author miguelduarte
+ *
+ */
 public class CTRNNMultilayer {
 	private double    timeStep = 0.2;
 	private double    tau      = 2.5;

@@ -1,4 +1,4 @@
-package client;
+package client.epuck;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -10,6 +10,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.Vector;
 import javax.swing.JPanel;
+
+/**
+ * Helper class to display the network's input and output
+ * data in a JFRame.
+ * 
+ * @author miguelduarte
+ *
+ */
 
 public class GraphingData extends JPanel {
 
@@ -60,13 +68,6 @@ public class GraphingData extends JPanel {
 		// Ordinate label.
 		String s = "data";
 		float sy = PAD + ((h - 2 * PAD) - s.length() * sh) / 2 + lm.getAscent();
-		// for(int i = 0; i < s.length(); i++) {
-		// String letter = String.valueOf(s.charAt(i));
-		// float sw = (float)font.getStringBounds(letter, frc).getWidth();
-		// float sx = (PAD - sw)/2;
-		// g2.drawString(letter, sx, sy);
-		// sy += sh;
-		// }
 		// Abcissa label.
 		s = "time";
 		sy = h - PAD + (PAD - sh) / 2 + lm.getAscent();

@@ -1,4 +1,4 @@
-package client;
+package client.epuck;
 
 import java.util.LinkedList;
 
@@ -6,6 +6,13 @@ import tracking.GeometricInfo;
 import tracking.Robot;
 import tracking.Vector2d;
 
+/**
+ * Virtual sensor that detects virtual objects
+ * in the environment.
+ * 
+ * @author miguelduarte
+ *
+ */
 public class PreySensor {
 	
 	private int numberOfSensors = 8;

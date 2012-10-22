@@ -6,6 +6,12 @@ import static com.googlecode.javacv.cpp.opencv_highgui.*;
 import static com.googlecode.javacv.cpp.opencv_imgproc.*;
 import com.googlecode.javacv.cpp.opencv_core.CvPoint;
 
+/**
+ * A simple Kalman Filter with a linear model. It should
+ * decrease the noise of the readings from the video samples.
+ * 
+ * @author miguelduarte
+ */
 public class RobotKalman {
 
 	JKalman kalman;

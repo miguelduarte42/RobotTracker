@@ -6,6 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * Handles the Bluetooth communication between the
+ * workstation and the e-puck robot.
+ * 
+ * @author miguelduarte
+ *
+ */
+
 public class BluetoothHandler {
 	
 	private InputStream in;
