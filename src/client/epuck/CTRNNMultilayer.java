@@ -6,7 +6,7 @@ package client.epuck;
  * @author miguelduarte
  *
  */
-public class CTRNNMultilayer {
+public class CTRNNMultilayer extends RoboticController {
 	private double    timeStep = 0.2;
 	private double    tau      = 2.5;
 	private int       numberOfHiddenNodes;
@@ -23,17 +23,32 @@ public class CTRNNMultilayer {
 	private double[]  outputNeuronStates;
 	private double[] weights;
 	private int[] inputIndex;
+	private int[] outputIndex;
 
-	public CTRNNMultilayer(int inputs, int hidden, int outputs, int[] inputIndex, double[] weights) {
+	public CTRNNMultilayer(int inputs, int hidden, int outputs, int[] inputIndex, String name, double[] weights) {
+		super(name);
 		this.numberOfInputNeurons = inputs;
 		this.numberOfHiddenNodes = hidden;
 		this.numberOfOutputNeurons = outputs;
 		this.weights = weights;
 		this.inputIndex = inputIndex;
+		
+		this.outputIndex = new int[outputs];
+		for(int i = 0 ; i < outputs ; i++)
+			outputIndex[i] = i;
+		
 		reset();
 	}
 
-	public double[] propagateInputs(double[] inputValues) {		
+	public CTRNNMultilayer(int inputs, int hidden, int outputs, int[] inputIndex, int[] outputIndex, String name, double[] weights) {
+		this(inputs, hidden, outputs, inputIndex, name, weights);
+		this.outputIndex = outputIndex;
+	}
+
+	public double[] update(double[] inputValues, int numberOutputs) {
+		
+		System.out.print(">> "+getName()+" ");
+		
 		// Update delta state of hidden layer from inputs:
 		for(int i = 0; i < numberOfHiddenNodes; i++) {
 			hiddenDeltaStates[i] = -hiddenStates[i];
@@ -71,8 +86,22 @@ public class CTRNNMultilayer {
 			// what we return and since the output layer is not recurrent:
 			outputNeuronStates[i] = ((1.0)/(Math.exp(-(outputNeuronStates[i] + outputBiases[i])) + 1.0 ));
 		}
+		
+		double[] returnOutputs = new double[numberOutputs];
 
-		return outputNeuronStates;
+//		System.out.println(numberOfOutputNeurons+" "+outputNeuronStates.length);
+		for(int i = 0 ; i < outputNeuronStates.length ; i++) {
+			returnOutputs[outputIndex[i]] = outputNeuronStates[i];
+//			System.out.print(i+" "+outputIndex[i]+" "+outputNeuronStates[i]);
+		}
+//		System.out.println();
+//		
+//		for(int i = 0 ; i < returnOutputs.length ; i++)
+//			System.out.print(returnOutputs[i]+" ");
+//		
+//		System.out.println();
+		
+		return returnOutputs;
 	}
 
 	public void reset() {

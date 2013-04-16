@@ -1,7 +1,5 @@
 package client.epuck;
 
-import java.util.LinkedList;
-
 import tracking.GeometricInfo;
 import tracking.Robot;
 import tracking.Vector2d;
@@ -13,44 +11,46 @@ import tracking.Vector2d;
  * @author miguelduarte
  *
  */
-public class PreySensor {
+public class WallButtonSensor {
 	
-	private int numberOfSensors = 8;
+	private int numberOfSensors = 2;
 	private double openingAngle = Math.toRadians(90);
-	private double range = 30;
+	private double range = 100;
 	private double[] readings;
 	private double[] angles;
 	private double r;
 	private Robot robot;
-	
-	public PreySensor(Robot robot) {
+	public Vector2d buttonPositions[] = {new Vector2d(92,50),new Vector2d(132,85)};
+	public boolean enabled = true;
+
+	public WallButtonSensor(Robot robot) {
 		this.robot = robot;
 		r=(Math.PI/2)/openingAngle;
 		
-		double delta = 2.0 * Math.PI / (double)numberOfSensors;
-		double angle = 0;
+//		double delta = 2.0 * Math.PI / (double)numberOfSensors;
+//		double angle = 0;
 		
 		this.readings = new double[numberOfSensors];
 		this.angles = new double[numberOfSensors];
 	
-//		for (int i = numberOfSensors-1 ; i >= 0; i--){
-//			angles[i] = angle;
-//			angle+=delta;
-//		}
-		for (int i = 0 ; i < numberOfSensors; i++){
-			angles[i] = angle;
-			angle+=delta;
-		}
+		//inverted from sim
+		angles[1] = Math.toRadians(30);
+		angles[0] = Math.toRadians(330);
 	}
 	
-	public double[] update(LinkedList<Vector2d> objectsRealCoordinates) {
+	public double[] update() {
 		
 		for(int j = 0; j < numberOfSensors; j++)
 			readings[j] = 0;
 		
-		for(Vector2d v : objectsRealCoordinates)
-			for(int j = 0; j < numberOfSensors; j++)
+		if(enabled) {
+			
+			Vector2d v = robot.x <= buttonPositions[0].x ? buttonPositions[0] : buttonPositions[1];
+			
+			for(int j = 0; j < numberOfSensors; j++) {
 				readings[j] = Math.max(calculateContributionToSensor(j, v),readings[j]);
+			}
+		}
 		
 		return readings;
 	}

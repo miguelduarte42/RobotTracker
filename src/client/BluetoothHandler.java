@@ -18,11 +18,15 @@ public class BluetoothHandler {
 	
 	private InputStream in;
     private OutputStream out;
-    private String portName;
     private static int BAUDRATE = 115200;
+    private String portName = "/dev/tty.e-puck_2419-COM1";
 	
 	public BluetoothHandler(String portName) {
 		this.portName = portName;
+	}
+	
+	public BluetoothHandler() {
+		
 	}
 	
 	public void connect() throws Exception {

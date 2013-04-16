@@ -3,6 +3,7 @@ package client;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 import tracking.Robot;
 
@@ -17,7 +18,7 @@ import tracking.Robot;
 public class LocationClient {
 	
 	private Socket socket;
-	private static String IP = "10.40.50.134";
+	private static String IP = "10.40.50.132";
 	private static int PORT = 1338;
 	private InputHandler input;
 	private OutputHandler output;
@@ -31,6 +32,7 @@ public class LocationClient {
 			socket = new Socket(IP, PORT);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 		input = new InputHandler();
 		output = new OutputHandler();
@@ -40,10 +42,6 @@ public class LocationClient {
 	
 	public void sendObjectMessage(Robot r) {
 		output.sendObjectMessage(r);
-	}
-
-	public static void main(String[] args) {
-		new LocationClient();
 	}
 	
 	class InputHandler extends Thread {
@@ -84,6 +82,18 @@ public class LocationClient {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		LocationClient lc = new LocationClient();
+		while(true) {
+			Scanner s = new Scanner(System.in);
+			Robot r = new Robot();
+			r.x = s.nextInt();
+			r.y = s.nextInt();
+			r.orientation = 1;
+			lc.sendObjectMessage(r);
 		}
 	}
 }

@@ -41,9 +41,9 @@ public class ControllerFrame extends JFrame{
 			}
 		});
 		
-		inputsGraph = new GraphingData(Controller.INPUTS);
+		inputsGraph = new GraphingData(controller.INPUTS);
 		inputsGraph.setSize(500,400);
-		outputsGraph = new GraphingData(Controller.OUTPUTS);
+		outputsGraph = new GraphingData(controller.OUTPUTS);
 		outputsGraph.setSize(500,400);
 		JPanel masterPanel = new JPanel(new BorderLayout());
 

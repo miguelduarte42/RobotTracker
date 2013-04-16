@@ -2,37 +2,34 @@ package client.epuck;
 
 public class HierarchicalController extends CTRNNMultilayer {
 	
-	private CTRNNMultilayer subControllers[];
+	private RoboticController[] subControllers;
 	public int lastSubController = 0;
-	public boolean master = false;
 	public double[] outputs;
 
-	public HierarchicalController(int inputs, int hidden, int outputs, int[] inputIndex, double[] weights) {
-		super(inputs, hidden, outputs, inputIndex, weights);
+	public HierarchicalController(int inputs, int hidden, int outputs, int[] inputIndex, String name, double[] weights) {
+		super(inputs, hidden, outputs, inputIndex, name, weights);
 	}
 	
-	public void setSubControllers(CTRNNMultilayer subControllers[]) {
+	public void setSubControllers(RoboticController[] subControllers) {
 		this.subControllers = subControllers;
 	}
 	
-	public double[] propagateInputs(double[] inputValues) {
-		outputs = super.propagateInputs(inputValues);
+	public double[] update(double[] inputValues, int numberOutputs) {
+		
+		outputs = super.update(inputValues, numberOutputs);
 
 		int maxIndex = 0;
 		
 		for(int i = 1 ; i < outputs.length ; i++)
 			maxIndex = outputs[i] > outputs[maxIndex] ? i : maxIndex;
 			
-		CTRNNMultilayer chosenNetwork = subControllers[maxIndex];
+			RoboticController chosenNetwork = subControllers[maxIndex];
 			
 		if(maxIndex != lastSubController)
 			chosenNetwork.reset();
 		
 		lastSubController = maxIndex;
 		
-		if(master)
-			System.out.println(lastSubController);
-		
-		return chosenNetwork.propagateInputs(inputValues);
+		return chosenNetwork.update(inputValues, numberOutputs);
 	}
 }

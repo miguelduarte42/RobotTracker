@@ -18,7 +18,7 @@ public class Robot implements Serializable,Cloneable {
 	public double x = 0;
 	public double y = 0;
 	public int preySensorRange = 30;
-	public int preyPickRange = 15;
+	public int preyPickRange = 5;
 	
 	public void setPosition(Vector2d p) {
 		x = p.x;

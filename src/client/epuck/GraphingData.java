@@ -127,13 +127,12 @@ public class GraphingData extends JPanel {
 	}
 
 	private double getMax() {
-		// double max = -Integer.MAX_VALUE;
-		// for (int i = Math.max(0, data.size() - showLast); i < data.size();
-		// i++) {
-		// if (data.get(i) > max)
-		// max = data.get(i);
-		// }
-		// return max;
+//		 double max = -Integer.MAX_VALUE;
+//		 for (int i = Math.max(0, data.length - showLast); i < data.length; i++) {
+//		 if (data[i] > max)
+//			 max = data[i];
+//		 }
+//		 return max;
 		return 1;
 	}
 
